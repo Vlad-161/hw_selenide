@@ -20,18 +20,19 @@ public class DeliveryCardTest {
     }
 
     @Test
-    void sendFormValidData(){
+    void ShoudlSendFormWithValidData() {
 
-        String planDate = generateDate(6,"dd.mm.yyyy");
+        String planningDate = generateDate(4, "dd.MM.YYYY");
 
         open("http://localhost:9999");
-        $("[data-test-id='city']input").setValue("Ростов-на-Дону");
-        $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE).setValue(planDate);
-        $("[data-test-id='name'] input").setValue("Николай Иванов");
-        $("[data-test-id='phone'] input").setValue("+79185556677");
+        $("[data-test-id='city'] input").setValue("Санкт-Петербург");
+        $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE).setValue(planningDate);
+        $("[data-test-id='name'] input").setValue("Алексей Харламов");
+        $("[data-test-id='phone'] input").setValue("+79158855445");
         $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Забронировать")).click();
         $(Selectors.withText("Успешно!")).should(Condition.visible, Duration.ofSeconds(15));
-        $(Selectors.withText("Встреча успешно забронирована на")).shouldHave(text(planDate)).should(Condition.visible, Duration.ofSeconds(15));
+        $(Selectors.withText("Встреча успешно забронирована на")).shouldHave(text(planningDate)).should(Condition.visible, Duration.ofSeconds(15));
+
     }
 }

@@ -2,13 +2,11 @@ plugins {
     id 'java'
 }
 
-group 'ru.netology'
-version '1.0-SNAPSHOT'
+group = 'ru.netology'
+version = '1.0-SNAPSHOT'
 
-java{
-    sourceCompatibility = 11
-}
 
+sourceCompatibility = 11
 
 // кодировка файлов (если используете русский язык в файлах)
 compileJava.options.encoding = "UTF-8"
