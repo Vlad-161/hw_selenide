@@ -1,0 +1,37 @@
+package ru.netology.test;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selectors;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
+
+public class DeliveryCardTest {
+
+    public String generateDate(int days, String pattern) {
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    @Test
+    void sendFormValidData(){
+
+        String planDate = generateDate(6,"dd.mm.yyyy");
+
+        open("http://localhost:9999");
+        $("[data-test-id='city']input").setValue("Ростов-на-Дону");
+        $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE).setValue(planDate);
+        $("[data-test-id='name'] input").setValue("Николай Иванов");
+        $("[data-test-id='phone'] input").setValue("+79185556677");
+        $("[data-test-id='agreement']").click();
+        $$("button").find(exactText("Забронировать")).click();
+        $(Selectors.withText("Успешно!")).should(Condition.visible, Duration.ofSeconds(15));
+        $(Selectors.withText("Встреча успешно забронирована на")).shouldHave(text(planDate)).should(Condition.visible, Duration.ofSeconds(15));
+    }
+}
