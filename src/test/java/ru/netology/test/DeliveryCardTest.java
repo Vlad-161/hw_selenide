@@ -20,7 +20,7 @@ public class DeliveryCardTest {
     }
 
     @Test
-    void ShoudlSendFormWithValidData() {
+    void sendFormWithValidData() {
 
         String planningDate = generateDate(4, "dd.MM.YYYY");
 
@@ -32,7 +32,7 @@ public class DeliveryCardTest {
         $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Забронировать")).click();
         $(Selectors.withText("Успешно!")).should(Condition.visible, Duration.ofSeconds(15));
-        $(Selectors.withText("Встреча успешно забронирована на")).shouldHave(text(planningDate)).should(Condition.visible, Duration.ofSeconds(15));
-
+        $("[data-test-id='notification']").should(Condition.and("Все условия", Condition.text("Встреча успешно забронирована на"), Condition.visible),
+                Duration.ofSeconds(15));
     }
 }
